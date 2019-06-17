@@ -63,5 +63,5 @@ app.addEventListener('transitionend', () => {
 flip是一个如何做动画的思考方式，它是使css和js非常好的配合。使用js做计算，使用css做动画。使用css做动画不是一定的，你也可以使用Web Animations API或者单单JavaScript。关键是你要减少每一帧的复杂度（推荐使用transform和opacity）。
 
 ## 参考
-https://segmentfault.com/a/1190000008907850
-https://aerotwist.com/blog/flip-your-animations/
+()[https://segmentfault.com/a/1190000008907850]
+()[https://aerotwist.com/blog/flip-your-animations/]
