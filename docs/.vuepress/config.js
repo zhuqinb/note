@@ -66,7 +66,14 @@ module.exports = {
                 componentsDir: './components'
             }
         ]
-    ]
+    ],
+    configureWebpack: {
+        resolve: {
+            alias: {
+                'images': 'images'
+            }
+        }
+    }
 }
 
 function genSidebarConfig(dir) {

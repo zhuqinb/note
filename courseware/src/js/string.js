@@ -49,9 +49,17 @@
 }
 
 {
-	console.log(String.raw`Hi//\\\n${2 + 3}!`)
+	console.log(String.raw`Hi\n${2 + 3}!`)
+	// 返回 "Hi\\n5!"
 }
 
 {
 	console.log(String.raw`Hi\\n`)
+}
+
+// String.raw 作为普通函数
+{
+	String.raw({ raw: 'test' }, 0, 1, 2) // 't0e1s2t'
+	// 等同于
+	String.raw({ raw: ['t', 'e', 's', 't'] }, 0, 1, 2)
 }
