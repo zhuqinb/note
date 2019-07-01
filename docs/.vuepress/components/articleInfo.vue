@@ -1,12 +1,16 @@
 <template>
   <p class="date">
     <slot></slot>
-    <span class="iconfont mood" :class="weather|weatherFilter"></span>
-    <span class="iconfont mood" :class="mood|moodFilter"></span>
+    <svg class="mood" aria-hidden="true">
+      <use :xlink:href="weather|weatherFilter"></use>
+    </svg>
+    <svg class="mood" aria-hidden="true">
+      <use :xlink:href="mood|moodFilter"></use>
+    </svg>
   </p>
 </template>
 <script>
-import "./../public/font/iconfont.css";
+import './../public/font/iconfont'
 
 import { mood, moodList } from "./../js/moodList";
 import { weather, weatherList } from "./../js/weatherList";
@@ -27,20 +31,20 @@ export default {
   filters: {
     weatherFilter: val => {
       if (typeof val === "number") {
-        return weatherList[val].value;
+        return '#' + weatherList[val].value;
       }
 
       if (typeof val === "string") {
-        return weather[val].value;
+        return '#' + weather[val].value;
       }
     },
     moodFilter: val => {
       if (typeof val === "number") {
-        return moodList[val].value;
+        return '#' + moodList[val].value;
       }
 
       if (typeof val === "string") {
-        return mood[val].value;
+        return '#' + mood[val].value;
       }
     }
   }
@@ -49,6 +53,14 @@ export default {
 
 
 <style lang="stylus">
+.mood {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
 .date {
   text-align: right;
   color: #999;
