@@ -2,10 +2,10 @@
   <p class="date">
     <slot></slot>
     <svg class="mood" aria-hidden="true">
-      <use :xlink:href="weather|weatherFilter"></use>
+      <use :xlink:href="weather|weatherFilter" />
     </svg>
     <svg class="mood" aria-hidden="true">
-      <use :xlink:href="mood|moodFilter"></use>
+      <use :xlink:href="mood|moodFilter" />
     </svg>
   </p>
 </template>
@@ -18,12 +18,12 @@ import { weather, weatherList } from "./../js/weatherList";
 export default {
   props: {
     weather: {
-      require: true,
+      require: false,
       type: [Number, String],
       default: 1
     },
     mood: {
-      require: true,
+      require: false,
       type: [Number, String],
       default: 1
     }

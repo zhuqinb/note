@@ -11,3 +11,4 @@ git commit -m 'deploy'
 # 推到你仓库的的 gh-page 分支
 # 将 <USERNAME>/<REPO> 替换为你的信息
 git push -f git@github.com:zhuqinb/note.git master:gh-pages
+git push -f git@gitee.com:zhuqinb/note.git master:gh-pages

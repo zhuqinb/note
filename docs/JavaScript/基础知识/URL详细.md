@@ -124,4 +124,4 @@ source（缩写）,指向外部资源的位置,指向的内容将会应用到文
 
 [参考](https://blog.csdn.net/rocling/article/details/82954538)
 
-<article-info weather="duoyun" mood="fadai">2019/7/1 18:48:28</article-info>
+<article-Info weather="duoyun" mood="fadai">2019/7/1 18:48:28</article-Info>
