@@ -58,13 +58,14 @@ module.exports = {
         sidebar
     },
     plugins: [
-        ['@vuepress/plugin-back-to-top', true],
+        ['@vuepress/back-to-top', true],
         [
             '@vuepress/register-components',
             {
                 componentsDir: './components'
             }
-        ]
+        ],
+        ['@vuepress/medium-zoom', true],
     ],
     configureWebpack: {
         resolve: {

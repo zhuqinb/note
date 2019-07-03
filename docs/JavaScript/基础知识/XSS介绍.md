@@ -172,4 +172,6 @@ function parse (str) {
   }
 ```
 
-<Article-Info weather="qing" mood="kaixin1">2019/6/30 10:55</Article-Info>
+<ClientOnly>
+  <article-info weather="qing" mood="kaixin1">2019年6月30日 10:55</article-info>
+</ClientOnly>
