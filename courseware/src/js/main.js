@@ -8,3 +8,23 @@ fs.mkdir(url, err => {
 		console.log(err)
 	})
 })
+
+function method(i) {
+	return function() {
+		console.log(i++)
+	}
+}
+
+var a = method(1)
+a()
+a()
+a()
+var a = method(1)
+a()
+
+{
+	function Parent() {}
+	Parent.prototype = {
+		constructor: Parent
+	}
+}
