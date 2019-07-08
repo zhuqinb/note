@@ -25,7 +25,7 @@ var obj = {
     bar: 'bar'
 }
 
-obj.hasOwnProperty('bar')  // false
+obj.hasOwnProperty('bar') // false
 
 // 此时可以通过这种方法来调用真正的 `hasOwnProperty`
 Object.prototype.hasOwnProperty.call(obj, 'bar') //true
