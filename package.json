@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"docs:dev": "vuepress dev docs",
+		"docs:dev": "vuepress dev docs && cd courseware & npm start",
 		"docs:build": "vuepress build docs"
 	},
 	"keywords": [],
