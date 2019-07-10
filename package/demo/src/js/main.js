@@ -1,0 +1,10 @@
+import "./../css/index.scss"
+const df = document.createDocumentFragment()
+const div = document.createElement('div')
+const txt = document.createTextNode('我有一个小毛驴，我从来也不骑。。。')
+div.classList.add('box')
+div.appendChild(txt)
+df.appendChild(div)
+document.body.appendChild(df)
+$('body').html('<div>哈哈224124124124sewweeeeeeeeeeeeeeeeeeaf~~~</div>')
+console.log(process.env)

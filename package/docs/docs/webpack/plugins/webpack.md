@@ -43,7 +43,7 @@ module.exports = {
 module.export = {
 	//这样当使用import导入jquery时会被忽略
 	externals: {
-		jquery: '$'
+		jquery: 'jQuery'
 	},
 	plugins: [
 		new webpack.ProvidePlugin({
@@ -52,3 +52,9 @@ module.export = {
 	]
 }
 ```
+
+:::warning 注意
+如果配置了 externals，里面字段的 value 必须在 webpack 加载的时候可以访问的到
+
+比如配置了 jquery 字段，必须在 html 中通过 script 引入 jquery，而且必须加载 body 结束标签之前
+:::
