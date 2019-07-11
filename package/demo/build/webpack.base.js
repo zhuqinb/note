@@ -2,8 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { smart } = require("webpack-merge")
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = env => {
     console.log(env.NODE_ENV)
@@ -37,14 +35,14 @@ module.exports = env => {
                 },
                 {
                     test: /\.css$/,
-                    use: ['style-loader', 'css-loader', 'postcss-loader'],
+                    use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
                     include: path.resolve(__dirname, 'src'),
                     exclude: /node_modules/
                 },
                 {
                     test: /\.scss$/,
                     use: [
-                        'style-loader',
+                        MiniCssExtractPlugin.loader,
                         "css-loader",
                         'postcss-loader',
                         "sass-loader"
@@ -74,10 +72,10 @@ module.exports = env => {
                 $: 'jquery',
                 jQuery: "jquery"
             }),
-            // new MiniCssExtractPlugin({
-            //     filename: 'src/css/style.css',
-            //     chunkFilename: "[hash:8].css"
-            // }),
+            new MiniCssExtractPlugin({
+                filename: 'src/css/style.css',
+                chunkFilename: "[hash:8].css"
+            }),
             new webpack.DefinePlugin({}),
             new webpack.NamedModulesPlugin(), // 打印更新的模块
             new webpack.HotModuleReplacementPlugin()

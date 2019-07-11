@@ -11,8 +11,11 @@ body {
     background-color: $bg;
 
     font: {
-        size: 51px;
-        family: 'Microsoft Yahei'
+        size: 02*2em;
+        family: 'Microsoft Yahei';
     }
 
+    &::after {
+        content: ''+(10*10px)
+    }
 }
