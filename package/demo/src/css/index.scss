@@ -1,4 +1,4 @@
-$bg: #000;
+$bg: #fff;
 $color: #fff;
 
 * {
@@ -14,8 +14,25 @@ body {
         size: 02*2em;
         family: 'Microsoft Yahei';
     }
+}
 
-    &::after {
-        content: ''+(10*10px)
+.light {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    color: $color;
+    font-size: 25px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    transition: background-color .5s, box-shadow .5s;
+
+    $colors: ('red', 'yellow', 'green');
+
+    @each $val in $colors {
+        &.#{$val} {
+            background-color: #{$val};
+            box-shadow: 0 0 20px 0px #{$val};
+        }
     }
 }
