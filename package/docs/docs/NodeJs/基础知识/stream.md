@@ -81,3 +81,7 @@ process.stdin.on('data', chunk => {
     console.log('stream by stdin', chunk.toString())
 }}
 ```
+
+## 参考
+
+[https://juejin.im/post/5d25ce36f265da1ba84ab97a?utm_source=gold_browser_extension](https://juejin.im/post/5d25ce36f265da1ba84ab97a?utm_source=gold_browser_extension)
