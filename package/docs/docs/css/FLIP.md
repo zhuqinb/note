@@ -65,3 +65,7 @@ flip是一个如何做动画的思考方式，它是使css和js非常好的配�
 ## 参考
 ()[https://segmentfault.com/a/1190000008907850]
 ()[https://aerotwist.com/blog/flip-your-animations/]
+
+## 补充
+(https://blog.csdn.net/suzichenaa/article/details/78962374)[https://blog.csdn.net/suzichenaa/article/details/78962374]
+(https://www.w3cplus.com/animation/additive-animation-web-animations-api.html)[https://www.w3cplus.com/animation/additive-animation-web-animations-api.html]
