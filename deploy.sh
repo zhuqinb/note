@@ -1,4 +1,5 @@
 # 构建
+cd package/docs
 vuepress build docs
 
 # 导航到构建输出目录

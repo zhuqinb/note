@@ -1,37 +1,65 @@
 <template>
   <section class="search-links">
     <div class="search">
-      <SearchBox/>
+      <SearchBox />
     </div>
     <div class="links">
       <a v-for="(item, index) in navs" :href="item.link|formatLink">{{item.text}}</a>
     </div>
+    <p>距离第七届世界军人运动会开幕还有{{distanceTime}}</p>
   </section>
 </template>
 
 <script>
-import SearchBox from '@SearchBox'
+import SearchBox from "@SearchBox";
+import { setTimeout } from "timers";
 export default {
   components: { SearchBox },
-  data () {
+  data() {
     return {
-      navs: []
-    }
+      navs: [],
+      distanceTime: undefined
+    };
   },
   filters: {
     formatLink: link => {
-      if (link.endsWith('md')) {
-        return '.' + link.slice(0, link.lastIndexOf('.') + 1) + 'html'
+      if (link.endsWith("md")) {
+        return "." + link.slice(0, link.lastIndexOf(".") + 1) + "html";
       }
     }
   },
-  mounted () {
-    const { themeConfig: { nav: [navs] } } = this.$site
-    this.navs = navs.items
+  methods: {
+    getDistanceTime() {
+      let endTime = new Date("2019-10-18 0:0:0").getTime();
+      let startTime = Date.now();
+      let distance = endTime - startTime;
+      let dayPoor = distance / 1000 / 24 / 60 / 60;
+      let day = Math.floor(dayPoor);
+      let hour = String(
+        Math.floor((dayPoor - Math.floor(dayPoor)) * 24)
+      ).padStart(2, "00");
+      let minute = String(
+        Math.floor((dayPoor - Math.floor(dayPoor)) * 60 * 24)
+      ).padStart(2, "00");
+      return `${day}天${hour}时${minute}分`;
+    }
+  },
+  mounted() {
+    const {
+      themeConfig: {
+        nav: [navs]
+      }
+    } = this.$site;
+    this.navs = navs.items;
+    function time() {
+      this.distanceTime = this.getDistanceTime();
+      setTimeout(time.bind(this), 1000);
+    }
+    time.call(this);
   }
-}
+};
 </script>
-<style lang="stylus" sc>
+<style lang="stylus">
 html, body {
   // background-color: #2b2b2b;
 }
