@@ -21,7 +21,7 @@ class Light {
 
     updateState(color) {
         const colors = ['red', 'green', 'yellow']
-        const light = document.querySelector('.light')
+        const light  = document.querySelector('.light')
         light.classList.remove(...colors)
         light.classList.add(color)
     }
@@ -29,7 +29,7 @@ class Light {
     countdown(defer) {
         clearTimeout(this.timer)
         const light = document.querySelector('.light')
-        let count = 0 | (defer / 1000)
+        let count   = 0 | (defer / 1000)
         light.innerHTML = count--
         this.timer = setTimeout(() => {
             count > 0 && this.countdown(count * 1000)
@@ -37,9 +37,9 @@ class Light {
     }
 }
 
-let red = new Light('red', 3e4)
+let red    = new Light('red', 3e4)
 let yellow = new Light('yellow', 5e3)
-let green = new Light('green', 2e4)
+let green  = new Light('green', 2e4)
 
 function start() {
     green.start().then(_ => yellow.start())
@@ -48,3 +48,4 @@ function start() {
 }
 
 export { start }
+
