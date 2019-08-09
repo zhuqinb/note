@@ -1,4 +1,6 @@
-#### 使用 px2rem
+# 移动端适配
+
+## 使用 px2rem
 
 **2019 年 3 月 17 日 16 点 26 分**
 
@@ -9,15 +11,14 @@
 
 1. main.js
 
-```
-...
+```js
 import 'lib-flexible/flexible'
-...
 ```
+
 
 2. vue.config.js
 
-```
+```js
 module.exports = {
     chainWebpack: config => {
         config.module
@@ -41,7 +42,7 @@ remUnit: 表示当前设计稿为 750px; remPrecision: 表示转换后保留8为
 1.还有一个使用 hotcss.js 这个也是根据当前设备自动设置根元素的 font-size 和 data-dpr, 但是和 px2rem-loader 配合起来有点问题
 2.rem.js, 也是配合起来和 px2rem 存在问题
 
-```
+```js
 (function(doc, win) {
     var docEl = doc.documentElement,
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -55,3 +56,5 @@ remUnit: 表示当前设计稿为 750px; remPrecision: 表示转换后保留8为
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 ```
+
+## 使用vw
