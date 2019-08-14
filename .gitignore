@@ -61,4 +61,4 @@ typings/
 .next
 
 # vuepress build output
-.vuepress/dist
+package/docs/docs/.vuepress/dist
