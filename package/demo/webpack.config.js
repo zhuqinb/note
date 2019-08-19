@@ -1,17 +1,17 @@
 const path = require('path')
 const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { resolve } = require('./build/utils')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { smart } = require("webpack-merge")
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
-    entry: path.resolve(__dirname, 'src/js/main.js'),
+    entry: resolve('src/js/main.js'),
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: './js/[name].[hash:8].js'
+        path: resolve('dist'),
+        filename: './js/[name][hash:8].js'
     },
     mode: 'development',
+    devtool: "source-map",
     devServer: {
         host: 'localhost',
         port: 2,
@@ -21,64 +21,51 @@ module.exports = {
         inline: true,
         stats: 'errors-only'
     },
-    devtool: 'source-map',
+    resolve: {
+        extensions: ['scss', 'css', 'vue', 'js'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+            '@': resolve('src')
+        }
+    },
     module: {
         rules: [{
-                test: /\.js$/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                },
-                include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader'],
-                include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    "css-loader",
-                    'postcss-loader',
-                    "sass-loader"
-                ],
-                include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/
+            test: /\.js$/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env']
+                }
             }
-        ]
-    },
-    externals: {
-        jquery: 'jQuery'
+        }, {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader', 'postcss-loader'],
+            include: resolve('src'),
+            exclude: /node_modules/
+        }, {
+            test: /\.scss$/,
+            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+        }, {
+            test: /\.vue$/,
+            use: 'vue-loader',
+            include: resolve('src'),
+            exclude: /node_modules/
+        }]
     },
     plugins: [
-        new CleanWebpackPlugin(),
+        new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
-            inject: 'body',
+            inject: "body",
             filename: 'index.html',
-            template: path.resolve(__dirname, 'src/index.html'),
-            title: "测试用例",
+            template: resolve('src/index.html'),
+            title: '测试用例',
             hash: true,
             minify: {
                 removeAttributeQuotes: true,
                 collapseWhitespace: true
             }
         }),
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: "jquery"
-        }),
-        // new MiniCssExtractPlugin({
-        //     filename: 'src/css/style.css',
-        //     chunkFilename: "[hash:8].css"
-        // }),
-        new webpack.DefinePlugin({}),
-        new webpack.NamedModulesPlugin(), // 打印更新的模块
+        new webpack.NamedChunksPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ]
 }
