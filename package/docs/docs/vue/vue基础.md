@@ -1,9 +1,11 @@
-# vue基础
+# vue 基础
 
 ## 实例
-当一个Vue实例被创建时，只有实例被创建时data中存在的属性加入到Vue的响应式系统中。当这些属性的值发生改变时，视图将会产生‘响应’，即匹配更新为新的值
+
+当一个 Vue 实例被创建时，只有实例被创建时 data 中存在的属性加入到 Vue 的响应式系统中。当这些属性的值发生改变时，视图将会产生‘响应’，即匹配更新为新的值
+
 ```js
-let data = {a: 1}
+let data = { a: 1 }
 let vm = new Vue({
 	el: 'container',
 	data
@@ -21,60 +23,71 @@ vm.a = 3
 data.a // 2
 ```
 
-当使用Object.freeze(),这会阻止修改现有的属性，也意味着响应系统无法再追踪变化。
+当使用 Object.freeze(),这会阻止修改现有的属性，也意味着响应系统无法再追踪变化。
 
 ### 不要在选项属性或回调上使用箭头函数
+
 例如：
+
 ```js
 create: () => {}
 vm.$warth('a', newValue => this.myMethod())
 ```
 
 ## 模板语法
-Vue.js使用了基于HTML的模板语法，允许开发者声明式地将 DOM 绑定至底层 Vue 实例的数据。所有 Vue.js 的模板都是合法的 HTML ，所以能被遵循规范的浏览器和 HTML 解析器解析。
+
+Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM 绑定至底层 Vue 实例的数据。所有 Vue.js 的模板都是合法的 HTML ，所以能被遵循规范的浏览器和 HTML 解析器解析。
 
 在底层的实现上，Vue 将模板编译成虚拟 DOM 渲染函数。结合响应系统，Vue 能够智能地计算出最少需要重新渲染多少组件，并把 DOM 操作次数减到最少。
 
 如果你熟悉虚拟 DOM 并且偏爱 JavaScript 的原始力量，你也可以不用模板，直接写渲染 (render) 函数，使用可选的 JSX 语法。
 
-
 #### 文本
+
 一次性插值，当数据改变时，插值处的内容不会更新
+
 ```vue
 <span v-once>这个值将不会改变{{msg}}</span>
 ```
-#### 原始HTML
+
+#### 原始 HTML
+
 ```vue
 <p v-html="rawHtml"></p>
 <script>
 export default = {
 	data: {
 		return{
-			rawHtml: '<span>this should be red</span>'	
+			rawHtml: '<span>this should be red</span>'
 		}
 	}
 }
 </script>
 ```
-这样会忽略解析属性值中的数据绑定，不能使用v-html来复合局部模板
+
+这样会忽略解析属性值中的数据绑定，不能使用 v-html 来复合局部模板
 
 :::warning
 你的站点上动态渲染的任意 HTML 可能会非常危险，因为它很容易导致 XSS 攻击。请只对可信内容使用 HTML 插值，绝不要对用户提供的内容使用插值。
 :::
-#### js表达式
+
+#### js 表达式
+
 :::warning
-模板表达式都被放在沙盒中，只能访问全局变量的一个白名单，如Math和Date。不应该在模板表达式中视图访问用户定义的全局变量
+模板表达式都被放在沙盒中，只能访问全局变量的一个白名单，如 Math 和 Date。不应该在模板表达式中视图访问用户定义的全局变量
 :::
 
 #### 动态参数 2.6.0
-```vue 
+
+```vue
 <!-- 转换为v-bind:[attributename] -->
-<a v-bind:[attributeName]='url'>...</a>
+<a v-bind:[attributeName]="url">...</a>
 ```
+
 这里的 attributeName 会被作为一个 JavaScript 表达式进行动态求值，求得的值将会作为最终的参数来使用
 
 **约束**
-异常情况下为null，这个特殊的 null 值可以被显性地用于移除绑定。任何其它非字符串类型的值都将会触发一个警告。
+异常情况下为 null，这个特殊的 null 值可以被显性地用于移除绑定。任何其它非字符串类型的值都将会触发一个警告。
 :::warning
 动态参数表达式有一些语法约束，因为某些字符，例如空格和引号，放在 HTML 特性名里是无效的。同样，在 DOM 中使用模板时你需要回避大写键名。
 :::
@@ -130,7 +143,8 @@ export default = {
 ...
 ```
 
-### 计算属性的setter
+### 计算属性的 setter
+
 ```js
 computed: {
 	fullName: {
@@ -147,22 +161,25 @@ computed: {
 	}
 }
 ```
-计算属性默认只有getter
 
-作用： 当给fullName赋新值的时候，setter就会被调用，这时firstName，lastName也会相应地被更新
+计算属性默认只有 getter
 
-## Class与Style绑定
+作用： 当给 fullName 赋新值的时候，setter 就会被调用，这时 firstName，lastName 也会相应地被更新
 
-绑定HTML Class
+## Class 与 Style 绑定
+
+绑定 HTML Class
 
 ### 对象语法
+
 ```html
 <!-- 第一种 -->
-<div :class="{active: isActive, 'text-danger': hasError}"> </div>
+<div :class="{active: isActive, 'text-danger': hasError}"></div>
 
 <!-- 第二种 -->
 <div :class="classObject"></div>
 ```
+
 ```js
 ...
 data: {
@@ -179,6 +196,7 @@ computed: {
 ```
 
 ### 数组语法
+
 ```html
 <div :class="[activeClass, errorClass]"></div>
 ```
@@ -189,7 +207,9 @@ data: {
 	errorClass: 'text-danger'
 }
 ```
-需要切换class,可以使用三元表达式
+
+需要切换 class,可以使用三元表达式
+
 ```html
 <div :class=[isActive ? activeClass: '']></div>
 <!-- 或者 -->
@@ -197,15 +217,19 @@ data: {
 ```
 
 ### 用在组件上
+
 ```js
 Vue.component('my-component', {
 	template: '<p class="foo bar"></p>'
 })
 ```
+
 ```html
 <my-component class="baz boo" :class="{active: true}"></my-component>
 ```
+
 渲染结果
+
 ```html
 <p class="foo bar baz boo active"></p>
 ```
@@ -214,12 +238,15 @@ Vue.component('my-component', {
 
 同样可以使用对象和计算属性和数组语法
 支持自动加前缀
+
 ```html
 <div :style="{color: active}"></div>
 ```
 
 ### 多重值 2.3.0+
+
 可以根据浏览器的支持自动选择
+
 ```html
 <div :style="{display: ['-webkit-box', '-ms-flexbox', 'flex']}"></div>
 ```
@@ -227,40 +254,48 @@ Vue.component('my-component', {
 ## 条件渲染
 
 ### v-if v-else v-else-if
+
 ```html
 <div v-if="Math.random() > 0.5">result1</div>
 <div v-else-if="Math.random() < 0.5">result2</div>
 <div v-else>result3</div>
 
 <!-- 也可以在template元素上进行渲染分组 -->
-<template v-if="ok">template1</template>
-<template v-else>template2</template>
+<template v-if="ok"
+	>template1</template
+>
+<template v-else
+	>template2</template
+>
 ```
 
-v-else和v-else-if必须紧跟在v-if或者v-else-if的后面，否则它将不会被识别。
+v-else 和 v-else-if 必须紧跟在 v-if 或者 v-else-if 的后面，否则它将不会被识别。
 
-### 用key管理可服用的元素
-Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。这样做的好处可以使Vue变得非常快，另外如果使用相同的元素，在切换时，不会替换用户输入的内容
+### 用 key 管理可服用的元素
 
-如果每次切换时，元素都需要重新切换，加上key就可以了
+Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。这样做的好处可以使 Vue 变得非常快，另外如果使用相同的元素，在切换时，不会替换用户输入的内容
+
+如果每次切换时，元素都需要重新切换，加上 key 就可以了
 
 ```html
 <template v-if="qq">
 	<label>qq</label>
-	<input type="text" key='qq' />
+	<input type="text" key="qq" />
 </template>
 <template v-else-if="weixin">
 	<label>weixin</label>
 	<input type="text" key="weixin" />
 </template>
 ```
-但是此时的label元素仍会高效服用，因为没有添加key属性
+
+但是此时的 label 元素仍会高效服用，因为没有添加 key 属性
 
 ### v-show
 
-v-show只是简单的切换css属性display,并且不支持template和v-else
+v-show 只是简单的切换 css 属性 display,并且不支持 template 和 v-else
 
-### v-if和v-show比较
+### v-if 和 v-show 比较
+
 v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
 
 v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
@@ -269,19 +304,20 @@ v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做
 
 一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
 
-### v-if与v-for一起使用
+### v-if 与 v-for 一起使用
 
 :::danger
-一起使用时，v-for具有比v-if更高的优先级，但是不推荐同时使用v-if和v-for
+一起使用时，v-for 具有比 v-if 更高的优先级，但是不推荐同时使用 v-if 和 v-for
 :::
 
 ## 列表循环
 
-### v-for循环
+### v-for 循环
 
-vue 里面v-for循环可以用在数组和对象上,在遍历对象时，会按 Object.keys() 的结果遍历，但是不能保证它的结果在不同的 JavaScript 引擎下都一致。
+vue 里面 v-for 循环可以用在数组和对象上,在遍历对象时，会按 Object.keys() 的结果遍历，但是不能保证它的结果在不同的 JavaScript 引擎下都一致。
 
 你也可以用 of 替代 in 作为分隔符，因为它更接近 JavaScript 迭代器的语法
+
 ```html
 <!-- 当数据是数组时，v-for支持两个参数(元素, 索引) -->
 <ul>
@@ -295,7 +331,8 @@ vue 里面v-for循环可以用在数组和对象上,在遍历对象时，会按 
 ```
 
 ### 维护状态
-当 Vue 正在更新使用 v-for 渲染的元素列表时，它默认使用“就地更新”的策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序，而是就地更新每个元素，并且确保它们在每个索引位置正确渲染。这个类似 Vue 1.x 的 track-by="$index"。
+
+当 Vue 正在更新使用 v-for 渲染的元素列表时，它默认使用“就地更新”的策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序，而是就地更新每个元素，并且确保它们在每个索引位置正确渲染。这个类似 Vue 1.x 的 track-by="\$index"。
 
 这个默认的模式是高效的，但是只适用于不依赖子组件状态或临时 DOM 状态 (例如：表单输入值) 的列表渲染输出。
 
@@ -312,17 +349,21 @@ vue 里面v-for循环可以用在数组和对象上,在遍历对象时，会按 
 ### 数组更新检测
 
 #### 变异方法
+
 Vue 将被侦听的数组的变异方法进行了包裹，所以它们也将会触发视图更新。这些被包裹过的方法包括：push, pop, shift, unshift, splice, sort, reverse
 
 #### 替换数组
+
 数组的方法执行时，不会该改变原数组，而返回一个新数组
 
 ```js
 example.items = example.items.filter(item => item.message.match(/Foo/))
 ```
+
 你可能认为这将导致 Vue 丢弃现有 DOM 并重新渲染整个列表。幸运的是，事实并非如此。Vue 为了使得 DOM 元素得到最大范围的重用而实现了一些智能的启发式方法，所以用一个含有相同元素的数组去替换原来的数组是非常高效的操作。
 
 #### 注意事项
+
 由于 JavaScript 的限制，Vue 不能检测以下数组的变动：
 
 1. 当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue
@@ -341,6 +382,7 @@ vm.items.length = 2 //不是响应式的
 解决方式
 
 第一类问题
+
 ```js
 // Vue.set
 Vue.set(vm.items, indexOfItem, newValue)
@@ -352,11 +394,13 @@ vm.items.splice(indexOfItem, 1, newValue)
 ```
 
 第二类问题
+
 ```js
 vm.items.splice(newLength)
 ```
 
 #### 对象变更检测注意事项
+
 还是由于 JavaScript 的限制，Vue 不能检测对象属性的添加或删除：
 
 ```js
@@ -371,7 +415,7 @@ vm.b = 2
 // `vm.b` 不是响应式的
 ```
 
-对于已经创建的实例，Vue不允许动态添加根级别的响应式属性。但是，可以使用Vue.set(object, propertyName, value)方法向嵌套对象添加响应式属性。例如
+对于已经创建的实例，Vue 不允许动态添加根级别的响应式属性。但是，可以使用 Vue.set(object, propertyName, value)方法向嵌套对象添加响应式属性。例如
 
 ```js
 let vm = new Vue({
@@ -387,7 +431,9 @@ Vue.set(vm.userProfile, 'age', 28)
 // 或者 vm.$set实例方法，它只是全局Vue.set的别名
 vm.$set(vm.userProfile, 'age', 28)
 ```
+
 有时你可能需要为已有对象赋值多个新属性，比如使用 Object.assign() 或 `_.extend()`。在这种情况下，你应该用两个对象的属性创建一个新的对象。所以，如果你想添加新的响应式属性:
+
 ```js
 // 不要这样做
 Object.assign(vm.userProfile, {
@@ -419,6 +465,7 @@ computed: {
 	}
 }
 ```
+
 或者
 
 ```html
@@ -431,22 +478,23 @@ method: {
 }
 ```
 
-#### 用在template
-类似v-if, v-for也可以用在`<template>`
+#### 用在 template
+
+类似 v-if, v-for 也可以用在`<template>`
 
 #### 注意点
+
 因为在 `<ul>` 元素内只有 `<li>` 元素会被看作有效内容，所以这里的 is="todo-item" 属性。这样做实现的效果与 `<todo-item>`相同，但是可以避开一些潜在的浏览器解析错误。这种做法在使用 DOM 模板时是十分必要的
 
 ```html
 <ul>
-	<li is='todo-item'></li>
+	<li is="todo-item"></li>
 </ul>
 <!-- 想当于 -->
 <ul>
 	<todo-item />
 </ul>
 ```
-
 
 ## 事件
 
@@ -459,17 +507,17 @@ method: {
 
 ### 事件修饰符
 
-- .stop 阻止事件传播
-- .prevent 阻止默认行为(preventDefault())
-- .capture 事件捕获
-- .self
-- .once
-- .passive 2.3.0
-- .once 2.1.4 可被定义在组件事件上(与上面不同)
+-   .stop 阻止事件传播
+-   .prevent 阻止默认行为(preventDefault())
+-   .capture 事件捕获
+-   .self
+-   .once
+-   .passive 2.3.0
+-   .once 2.1.4 可被定义在组件事件上(与上面不同)
 
 ```html
 <!-- 阻止单击事件继续传播 -->
-<a @click.stop='doThis'></a>
+<a @click.stop="doThis"></a>
 
 <!-- 提交事件不再重载页面 -->
 <form v-on:submit.prevent="onSubmit"></form>
@@ -496,8 +544,9 @@ method: {
 使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 v-on:click.prevent.self 会阻止所有的点击，而 v-on:click.self.prevent 只会阻止对元素自身的点击。
 :::
 
-#### passive 
-Vue对addEventListener中[passive](./../JavaScript/DOM/addEventListener)选项提供了.passive修饰符
+#### passive
+
+Vue 对 addEventListener 中[passive](./../JavaScript/DOM/addEventListener)选项提供了.passive 修饰符
 
 ```html
 <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 -->
@@ -505,6 +554,7 @@ Vue对addEventListener中[passive](./../JavaScript/DOM/addEventListener)选项�
 <!-- 这其中包含 `event.preventDefault()` 的情况 -->
 <div v-on:scroll.passive="onScroll">...</div>
 ```
+
 这个 .passive 修饰符尤其能够提升移动端的性能。
 
 :::danger
@@ -514,44 +564,47 @@ Vue对addEventListener中[passive](./../JavaScript/DOM/addEventListener)选项�
 ### 按键修饰符
 
 ```html
-<input v-on:keyup.enter="submit">
+<input v-on:keyup.enter="submit" />
 <!-- 直接将 KeyboardEvent.key 暴露的任意有效按键名转换为 kebab-case 来作为修饰符。 -->
 <!-- 在 $event.key 等于 PageDown 时被调用 -->
-<input v-on:keyup.page-down="onPageDown">
+<input v-on:keyup.page-down="onPageDown" />
 <!-- 也可以直接使用keyCode -->
-<input v-on:keyup.13="submit">
+<input v-on:keyup.13="submit" />
 ```
 
 为了在必要的情况下支持旧浏览器，Vue 提供了绝大多数常用的按键码的别名：
-- .enter
-- .tab
-- .delete (捕获“删除”和“退格”键)
-- .esc
-- .space
-- .up
-- .down
-- .left
-- .right
+
+-   .enter
+-   .tab
+-   .delete (捕获“删除”和“退格”键)
+-   .esc
+-   .space
+-   .up
+-   .down
+-   .left
+-   .right
 
 :::warning
 有一些按键 (.esc 以及所有的方向键) 在 IE9 中有不同的 key 值, 如果你想支持 IE9，这些内置的别名应该是首选。
 :::
 
 可以通过全局配置自定义按键修饰符别名:
+
 ```js
 // 可以使用 `v-on:keyup.f1`
 Vue.config.keyCodes.f1 = 112
-````
+```
 
 系统修饰符
-- .ctrl
-- .alt
-- .shift
-- .meta
+
+-   .ctrl
+-   .alt
+-   .shift
+-   .meta
 
 ```html
 <!-- Alt + C -->
-<input @keyup.alt.67="clear">
+<input @keyup.alt.67="clear" />
 
 <!-- Ctrl + Click -->
 <div @click.ctrl="doSomething">Do something</div>
@@ -578,11 +631,12 @@ Vue.config.keyCodes.f1 = 112
 
 #### 鼠标按钮修饰符
 
-- .left
-- .right
-- .middle
+-   .left
+-   .right
+-   .middle
 
 #### 为什么在 HTML 中监听事件?
+
 你可能注意到这种事件监听的方式违背了关注点分离 (separation of concern) 这个长期以来的优良传统。但不必担心，因为所有的 Vue.js 事件处理方法和表达式都严格绑定在当前视图的 ViewModel 上，它不会导致任何维护上的困难。实际上，使用 v-on 有几个好处：
 
 扫一眼 HTML 模板便能轻松定位在 JavaScript 代码里对应的方法。
@@ -591,11 +645,47 @@ Vue.config.keyCodes.f1 = 112
 
 当一个 ViewModel 被销毁时，所有的事件处理器都会自动被删除。你无须担心如何清理它们。
 
+## 边界情况
 
+### 访问根实例 访问父级组件实例
 
+可以通过`$root` 访问根元素, 可以通过`$parent` 访问父元素;不是响应式的;watch 可以检测到变化
 
+### 访问子组件实例或子元素
 
+可以通过`$refs` 引用子元素, 但是这种不是响应式的; 所以避免写在计算属性和监听函数里面;watch 检测不到变化
 
+### 依赖注入
+
+provide: `Object | () => {[key: string | Symbol]: any}`
+
+inject: `Array<string> | {[key: string]: string | Symbol | Object }`
+
+默认情况下,这一对属性不是响应式的.但是如果传入一个可监听的对象,那么其对象的属性还是可响应式的
+
+`provide` 在 `data` 之后, `Created` 之前执行
+
+### 注意点
+
+上面说的不是响应式,指的是数据更新时,不会触发 beforeUpdate 和 updated 函数
+
+### 程序化的事件侦听器
+
+$on(eventName, handle)
+$off(eventName, handle)
+\$once(eventName, handle)
+
+避免忘记销毁对象
+
+```js
+mounted() {
+    var map = new MapBase()
+
+    this.$once('hook:beforeDestroy', () => {
+        map.destroy()
+    })
+}
+```
 
 <ClientOnly>
   <article-info weather="qing" mood="kaixin1">2019年8月02日 10:55</article-info>

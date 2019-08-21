@@ -1,4 +1,4 @@
-import "./../css/index.scss"
+import "./../css/light.scss"
 
 const box = document.createElement('div')
 box.classList.add(...['light', 'red'])

@@ -10,7 +10,7 @@
 // read(input, img)
 import Vue from 'vue'
 
-import '@/css/flex.scss'
+import '@/css/index.scss'
 import '@/views/home.vue'
 import App from '@/views/app.vue'
 new Vue({

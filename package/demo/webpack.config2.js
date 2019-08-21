@@ -64,7 +64,7 @@ module.exports = {
         jquery: 'jQuery'
     },
     resolve: {
-        extensions: ['scss', 'css', 'vue', 'js', 'png'],
+        extensions: ['.scss', '.css', '.vue', '.js', '.png'],
         alias: {
             'root': path.resolve('./src')
         }

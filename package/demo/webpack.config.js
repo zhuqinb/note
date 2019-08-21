@@ -17,12 +17,12 @@ module.exports = {
         port: 2,
         overlay: true,
         open: true,
-        hot: true,
         inline: true,
+        hot: true,
         stats: 'errors-only'
     },
     resolve: {
-        extensions: ['scss', 'css', 'vue', 'js'],
+        extensions: ['.scss', '.css', '.vue', '.js'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@': resolve('src')
@@ -65,7 +65,7 @@ module.exports = {
                 collapseWhitespace: true
             }
         }),
-        new webpack.NamedChunksPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
     ]
 }
