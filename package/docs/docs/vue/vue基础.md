@@ -278,6 +278,7 @@ Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从�
 如果每次切换时，元素都需要重新切换，加上 key 就可以了
 
 ```html
+<!-- 如果这里加 v-model 每次切换时 v-model也会切换 -->
 <template v-if="qq">
 	<label>qq</label>
 	<input type="text" key="qq" />
@@ -507,6 +508,8 @@ method: {
 
 ### 事件修饰符
 
+事件默认是冒泡行为
+
 -   .stop 阻止事件传播
 -   .prevent 阻止默认行为(preventDefault())
 -   .capture 事件捕获
@@ -644,6 +647,191 @@ Vue.config.keyCodes.f1 = 112
 因为你无须在 JavaScript 里手动绑定事件，你的 ViewModel 代码可以是非常纯粹的逻辑，和 DOM 完全解耦，更易于测试。
 
 当一个 ViewModel 被销毁时，所有的事件处理器都会自动被删除。你无须担心如何清理它们。
+
+## 表单处理
+
+-   text 和 textarea 元素使用 value 属性和 input 事件；
+-   checkbox 和 radio 使用 checked 属性和 change 事件；
+-   select 字段将 value 作为 prop 并将 change 作为事件。
+
+### 复选框
+
+改变选中的值 使用 `true-value` 和 `false-value`
+
+```html
+<input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
+```
+
+```js
+// 选中时
+vm.toggle === 'yes'
+// 未选中时
+vm.toggle === 'no'
+```
+
+### 单选和选中框
+
+使用 `v-bind:value` 来绑定选中的值
+
+### v-model 修饰符
+
+#### .lazy
+
+将默认 `input` 事件触发改成 `change`
+
+#### .number
+
+自动将用户的输入值转换数值
+
+#### .trim
+
+自动过滤用户输入首尾空白字符
+
+## 组件基础
+
+与 `new Vue` 接受的选项类似,但是 `el` 是根实例特有的选项
+
+### data 必须是一个函数
+
+一个组件的 data 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝
+
+### 全局和局部注册
+
+#### 全局
+
+```js
+Vue.component('my-conponent-name', {})
+```
+
+### 给组件绑定 v-model
+
+```html
+<template>
+	<my-component v-model="value" />
+</template>
+
+<!-- 相当于 -->
+
+<template>
+	<my-component :value="searchText" @input="searchText = $event.target.value" />
+</template>
+
+<!-- my-component -->
+<template>
+	<input :value="searchText" @input="searchText = $event" />
+</template>
+```
+
+### 插槽
+
+`<slot></slot>`
+
+### 动态组件
+
+`:is`
+
+## 组件注册
+
+注册时的组件名分为 `Kebab-case` 和 `PascalCase`
+
+### 基础组件的自动化全局注册
+
+使用 webpack 工具,然后在入口文件(main.js) 编写自动注册基础组件的代码
+
+## Prop
+
+`Array<string> | object`
+
+### 大小写
+
+camelCase (驼峰命名法) 的 prop 名需要使用其等价的 kebab-case (短横线分隔命名) 命名：
+
+```js
+Vue.component('blog-post', {
+	// 在 JavaScript 中是 camelCase 的
+	props: ['postTitle'],
+	template: '<h3>{{ postTitle }}</h3>'
+})
+```
+
+```html
+<!-- 在 HTML 中是 kebab-case 的 -->
+<blog-post post-title="hello!"></blog-post>
+```
+
+### 类型
+
+(`null` 和 `undefined`会通过任何类型验证)
+
+-   String
+-   Number
+-   Boolean
+-   Array
+-   Object
+-   Date
+-   Function
+-   Symbol
+-   自定义类(通过 instanceOf 来进行检查)
+
+<b>注意点</b>
+
+```js
+function Person(firstName, lastName) {
+    this.firstName = firstName
+    this.lastName = lastName
+}
+props: {
+    propA: Number,
+    propB: [String, Number],
+    propC: {
+        type: String,
+        require: true
+    },
+    propD: {
+        type: Number,
+        default: 100
+    },
+    // 带有默认值的对象
+    propE: {
+        type: Object,
+        // 对象或数组默认值必须从一个工厂函数获取
+        defalut: () => {message: 'hello'}
+    },
+    // 自定义验证函数
+    propF: {
+        validator: val => {
+            return ['success', 'warning', 'danger'].indexOf(value) !== -1
+        }
+    },
+    propG: {
+        type: Person
+    }
+}
+```
+
+:::danger
+注意那些 prop 会在一个组件实例创建之前进行验证，所以实例的属性 (如 data、computed 等) 在 default 或 validator 函数中是不可用的。
+:::
+
+### 传值
+
+出了字符串之外,其他类型的值尽管不是动态数据,也需要使用`v-bind`
+
+如果需要传入一个对象的所有属性, 可以使用不带参数的 v-bind
+
+```js
+post: {
+    id: 1,
+    title: 'My Journey with Vue'
+}
+```
+
+```html
+<blog-post v-bind="post"></blog-post>
+
+<!-- 等价于 -->
+<blog-post v-bind:id="post.id" v-bind:title="post.title"></blog-post>
+```
 
 ## 边界情况
 

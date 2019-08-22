@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const { resolve } = require('./build/utils')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -28,6 +29,9 @@ module.exports = {
             '@': resolve('src')
         }
     },
+    externals: {
+        jquery: 'jQuery'
+    },
     module: {
         rules: [{
             test: /\.js$/,
@@ -40,11 +44,12 @@ module.exports = {
         }, {
             test: /\.css$/,
             use: ['style-loader', 'css-loader', 'postcss-loader'],
-            include: resolve('src'),
-            exclude: /node_modules/
         }, {
             test: /\.scss$/,
             use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+        }, {
+            test: /\.(ttf|woff)$/,
+            use: 'url-loader'
         }, {
             test: /\.vue$/,
             use: 'vue-loader',
@@ -54,6 +59,7 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin(),
+        // new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             inject: "body",
             filename: 'index.html',
@@ -65,6 +71,11 @@ module.exports = {
                 collapseWhitespace: true
             }
         }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        }),
+        new webpack.DefinePlugin({}),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
     ]
