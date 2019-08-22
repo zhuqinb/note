@@ -1,68 +1,70 @@
 const path = require('path')
 const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { resolve } = require('./build/utils')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { smart } = require("webpack-merge")
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
-    entry: path.resolve(__dirname, 'src/js/main.js'),
+    entry: resolve('src/js/main.js'),
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: './js/[name].[hash:8].js'
+        path: resolve('dist'),
+        filename: './js/[name][hash:8].js'
     },
     mode: 'development',
+    devtool: "source-map",
     devServer: {
         host: 'localhost',
         port: 2,
         overlay: true,
         open: true,
-        hot: true,
         inline: true,
+        hot: true,
         stats: 'errors-only'
     },
-    devtool: 'source-map',
-    module: {
-        rules: [{
-                test: /\.js$/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                },
-                include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader'],
-                include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    "css-loader",
-                    'postcss-loader',
-                    "sass-loader"
-                ],
-                include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/
-            }
-        ]
+    resolve: {
+        extensions: ['.scss', '.css', '.vue', '.js'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+            '@': resolve('src')
+        }
     },
     externals: {
         jquery: 'jQuery'
     },
+    module: {
+        rules: [{
+            test: /\.js$/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env']
+                }
+            }
+        }, {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader', 'postcss-loader'],
+        }, {
+            test: /\.scss$/,
+            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+        }, {
+            test: /\.(ttf|woff)$/,
+            use: 'url-loader'
+        }, {
+            test: /\.vue$/,
+            use: 'vue-loader',
+            include: resolve('src'),
+            exclude: /node_modules/
+        }]
+    },
     plugins: [
-        new CleanWebpackPlugin(),
+        new VueLoaderPlugin(),
+        // new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            inject: 'body',
+            inject: "body",
             filename: 'index.html',
-            template: path.resolve(__dirname, 'src/index.html'),
-            title: "测试用例",
+            template: resolve('src/index.html'),
+            title: '测试用例',
             hash: true,
             minify: {
                 removeAttributeQuotes: true,
@@ -71,14 +73,10 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: "jquery"
+            jQuery: 'jquery'
         }),
-        // new MiniCssExtractPlugin({
-        //     filename: 'src/css/style.css',
-        //     chunkFilename: "[hash:8].css"
-        // }),
         new webpack.DefinePlugin({}),
-        new webpack.NamedModulesPlugin(), // 打印更新的模块
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
     ]
 }
