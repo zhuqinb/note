@@ -47,3 +47,47 @@
 	}
 </script>
 ```
+
+## vue 模块懒加载(按需加载)
+
+```js
+Vue.component('AsyncCmp', () => import('./AsyncCmp'))
+```
+
+```js
+new Vue({
+	components: {
+		AsyncCmp: () => import('./AsyncCmp')
+	}
+})
+```
+
+```js
+components: {
+	UiAlert: () => import('keen-ui').then(({ UiAlert }) => UiAlert)
+}
+```
+
+路由懒加载
+
+Vue 路由器内置支持延迟加载。它就像使用该 import 功能导入组件一样简单。
+
+```js
+const Login = () => import('./login')
+
+new VueRouter({
+	routes: [{ path: '/login', component: Login }]
+})
+```
+
+懒加载 Vuex 模块
+
+Vuex 有一种 registerModule 方法可以让我们动态创建 Vuex 模块。如果我们考虑到该 import 函数返回 ES 模块作为有效负载的承诺，我们可以使用它来延迟加载模块：
+
+```js
+const store = new Vuex.store()
+
+import('./store/login').then(loginModule => {
+	store.registerModule('login', loginModule)
+})
+```
