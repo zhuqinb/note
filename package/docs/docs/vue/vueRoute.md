@@ -39,3 +39,7 @@ new Vue({
     <router-view></router-view>
 </template>
 ```
+
+<ClientOnly>
+  <article-info weather="qing" mood="kaixin1">2019年8月30日 18:20</article-info>
+</ClientOnly>
