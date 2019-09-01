@@ -35,7 +35,8 @@
 ## 一个简单的例子
 
 ```js
-// 如果在模块化构建系统中，请确保在开头调用了Vue.use(vuex)
+import Vuex from 'vuex'
+// 如果在模块化构建系统中，请确保在开头调用了Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		count: 0
@@ -45,6 +46,13 @@ const store = new Vuex.Store({
 			state.count++
 		}
 	}
+})
+
+// 提供了一种机制将状态从根组件“注入”到每一个子组件中（需调用 Vue.use(Vuex)）
+new Vue({
+	store,
+	el: '#app',
+	render: c => c(App)
 })
 ```
 
@@ -61,6 +69,261 @@ console.log(store.state.count) // 1
 请不要直接改变 store.state.count,是因为 vue 可以更明确地追踪到状态的变化。可以有机会记录每次状态的改变。甚至可以实现如时间穿梭般的调试体验。
 :::
 
+## State
+
+Vuex 的状态存储是响应式的
+
+```js
+const Counter = {
+	template: `<div>{{ count }}</div>`,
+	computed: {
+		count() {
+			return this.$store.state.count
+		}
+	}
+}
+```
+
+### mapState 辅助函数
+
+```js
+import { mapState } from 'vuex'
+
+export default {
+	computed: mapState({
+		count: state => state.count,
+		countAlias: 'count',
+		countPlusLocalState(state) {
+			return state.count + this.localCount
+		}
+	})
+}
+
+// 或者
+export default {
+	computed: mapState(['count'])
+}
+
+// 或者
+export default {
+	computed: {
+		...mapState({})
+	}
+}
+```
+
+## Getter
+
+在 store 中定义的 getters 相当于计算属性，只有当值改变时，触发；如果这个 getters 返回一个函数，就不具有这个功能，每次都会重新计算
+
+```js
+new Vuex.Store({
+	state: {
+		todos: [
+			{id: 1, text: '...', done: true}
+			{id: 2, text: '...', done: false }
+		]
+	},
+	getters: {
+		doneTodo: (state, getters) => {
+			return state.todos.filter(todo => todo.done)
+		},
+		doneTodosCount: (state, getters) => {
+			return getters.doneTodos.length
+		}
+	}
+})
+
+// getter 里面可以返回一个方法，可以给getter传参
+getters: {
+	getTodoById: (state) => (id) => {
+		return state.todos.find(todo => todo.id === id)
+	}
+}
+
+// 调用属性
+this.$store.getters.doneTodo
+// 调用方法
+store.getters.getTodoById(2) // -> { id: 2, text: '...', done: false }
+
+```
+
+#### mapGetters
+
+```js
+// 在组件中使用
+computed: {
+	...mapGetters([
+		'doneTodo': 'doneTodosCount', //getter 属性另取一个名字
+		'doneTodosCount'
+	])
+}
+```
+
+## Mutation
+
+只能执行同步函数；类是一个事件，通过调用触发。
+
+```js
+const store = new Vuex.Store({
+	state: {
+		count: 1
+	},
+	mutations: {
+		increment(state, options) {
+			state.count += options.num
+		}
+	}
+})
+
+// 调用
+store.commit('increment', {
+	num: 10
+})
+
+// 或者
+store.commit({
+	type: 'increment',
+	num: 10
+})
+```
+
+既然 Vuex 的 store 中的状态是响应式的，那么当我们变更状态时，监视状态的 Vue 组件也会自动更新。这也意味着 Vuex 中的 mutation 也需要与使用 Vue 一样遵守一些注意事项：
+
+1. 最好提前在你的 store 中初始化好所有所需属性。
+2. 当需要在对象上添加新属性时，你应该
+    - `Vue.set(obj, 'newProp', 123)`
+    - 或新对象替换老对象`state.obj = {...state.obj, newProp: 123}`
+
+### 使用常量替代 Mutation 事件类型
+
+```js
+// mutation-types.js
+export const SOME_MUTATION = 'SOME_MUTATION'
+```
+
+```js
+// store.js
+import Vuex from 'vuex'
+import { SOME_MUTATION } from './mutation-types'
+
+const store = new Vuex.Store({
+	state: {...},
+	mutations: {
+		[SOME_MUTATION](state) {
+			// mutate state
+		}
+	}
+})
+```
+
+### mapMutations
+
+```js
+import { mapMutations } from 'vuex'
+export default {
+	methods: {
+		// 作用类似 ： this.$store.commit('increment')
+		...mapMutations(['increment']),
+		...mapMutations({
+			add: 'increment' // 类似取别名
+		})
+	}
+}
+```
+
+## Action
+
+处理异步；Action 提交的是 mutation，而不是直接变更状态
+
+Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象。
+
+```js
+const store = new Vuex.Store({
+	state: {
+		count: 0
+	},
+	mutations: {
+		increment(state) {
+			state.count++
+		}
+	},
+	actions: {
+		increment(content) {
+			context.commit('increment')
+		}
+	}
+})
+```
+
+### 分发
+
+```js
+store.dispatch('increment')
+// 或
+store.dispatch({
+	type: 'increment',
+	amount: 10
+})
+```
+
+### mapActions
+
+```js
+import { mapActions } from 'vuex'
+
+export defalut {
+	methods: {
+		...mapActions([
+			'increment' // 相当于 this.$store.dispatch('increment')
+		]),
+		...mapActions({
+			add: 'increment'  // 类似别名
+		})
+	}
+}
+```
+
+### 组合 Action
+
+Action 可以处理 触发 action 的处理函数返回的 Promise， 并且 store.dispatch 仍然返回 Promise：
+
+```js
+actions: {
+	actionA({commit}) {
+		return new Promise((resolve, reject) => {
+			setTimeout( () => {
+				commit('someMutation')
+				resolve()
+			}, 1e3)
+		})
+	}
+}
+```
+
+分发
+
+```js
+store.dispatch('actionA').then(() => {
+	// ...
+})
+```
+
+也可以在另外一个 action 中使用
+
+```js
+actions: {
+	actionB({dispatch, commit}) {
+		return dispatch('actionA').then(() => {
+			commit('someOtherMutation')
+		})
+	}
+}
+```
+
+## Module
+
 <ClientOnly>
   <article-info weather="duoyun" mood="fadai">2019年7月11日 18:43:22</article-info>
 </ClientOnly>
+```

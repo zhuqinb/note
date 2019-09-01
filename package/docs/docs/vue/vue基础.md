@@ -713,7 +713,10 @@ Vue.component('my-conponent-name', {})
 <!-- 相当于 -->
 
 <template>
-	<my-component :value="searchText" @input="searchText = $event.target.value" />
+	<my-component
+		:value="searchText"
+		@input="searchText = $event.target.value"
+	/>
 </template>
 
 <!-- my-component -->
@@ -875,29 +878,116 @@ mounted() {
 }
 ```
 
+## 插槽
 
+### 插槽内容
 
+### 编译作用域
 
+父模板(父作用域)定义的数据在子模版(子作用域)中访问不到，只能访问相同的作用域
 
+父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
 
+### 后备内容
 
+```html
+<slot>submit</slot>
+```
 
+相当于插槽默认值
 
+### 具名插槽
 
+```html
+<div class="container">
+	<header><slot name="header"></slot></header>
+	<main><slot></slot></main>
+	<footer><slot name="footer"></slot></footer>
+</div>
 
+<!-- 使用 -->
+<base-layout>
+	<template v-slot:header>
+		<h1>header content!</h1>
+	</template>
+	<!-- ... -->
+</base-layout>
+```
 
+注意 v-slot 只能添加在一个 <template> 上 (只有一种例外情况)，这一点和已经废弃的 slot 特性不同。
 
+### 作用域插槽
 
+是为了让插槽内容能够访问到子组件中的数据
 
+```html
+<!-- current-user 组件  -->
 
+<span>
+	<slot>{{user.lastName}}</slot>
+</span>
+```
 
+```js
+export default {
+	data() {
+		user: {
+			lastName: 'qi',
+			firstName: 'zhu'
+		}
+	}
+}
+```
 
+这个时候如果使用这个组件，并且能使用这个组件的数据，需要做下修改
 
+```html
+<!-- current-user 组件  -->
+<span>
+	<slot :user="user">
+		{{ user.lastName }}
+	</slot>
+</span>
+```
 
+使用
 
+```html
+<current-user>
+	<template v-slot:default="slotProps">
+		{{ slotProps.user.firstName }}
+	</template>
+</current-user>
+```
 
+这里的 slotProps 就绑定了子组件 数据的 user 值
 
+#### 独占默认插槽的缩写语法
 
+#### 解构插槽 Prop 和 Prop 默认值
+
+### 动态插槽名
+
+```html
+<base-layout>
+	<template v-slot:[dynamicSlotName]></template>
+</base-layout>
+```
+
+### 具名插槽的缩写
+
+```html
+<base-layout>
+	<template #header></template>
+</base-layout>
+
+这样是会报错的
+
+<base-layout #="{user}"></base-layout>
+
+改成
+<base-layout #default="{user}"></base-layout>
+```
 
 <ClientOnly>
   <article-info weather="qing" mood="kaixin1">2019年8月02日 10:55</article-info>
