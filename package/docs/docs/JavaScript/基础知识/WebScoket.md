@@ -208,3 +208,10 @@ url 可以是 socket 服务完整的 http 地址，如：io('http://localhost:30
 不填的话就表示默认连接当前路径，如：io()
 
 基本用法就是这些了，还有其他的划分命名空间、加入房间和广播等方法没有讲到，本想继续往下写的
+
+[参考](https://juejin.im/post/5bc7f6b96fb9a05d3447eef8)
+
+<ClientOnly>
+  <article-info weather="qing" mood="maren">2019年09月04日 01:05 
+  今天是地大信息上班的最后一天</article-info>
+</ClientOnly>
