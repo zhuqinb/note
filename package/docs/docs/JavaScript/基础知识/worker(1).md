@@ -134,7 +134,9 @@ myWorker.terminate();
 worker.addEventListener(
 	'error',
 	function(evt) {
-		alert('Line #' + evt.lineno + ' - ' + evt.message + ' in ' + evt.filename)
+		alert(
+			'Line #' + evt.lineno + ' - ' + evt.message + ' in ' + evt.filename
+		)
 	},
 	false
 )
@@ -185,7 +187,14 @@ demo_worker.html
 						worker.addEventListener(
 							'error',
 							function(event) {
-								alert('Line #' + event.lineno + ' - ' + event.message + ' in ' + event.filename)
+								alert(
+									'Line #' +
+										event.lineno +
+										' - ' +
+										event.message +
+										' in ' +
+										event.filename
+								)
 							},
 							false
 						)
@@ -198,7 +207,8 @@ demo_worker.html
 							false
 						)
 					} else {
-						result.innerHTML = 'sry, your browser does not support Web workers...'
+						result.innerHTML =
+							'sry, your browser does not support Web workers...'
 					}
 				},
 				false
@@ -267,9 +277,12 @@ addEventListener('message', function(event) {
 			// 我们使用 blob builder
 			// ...但是现在我们使用 Blob...:
 			var blob = new Blob(
-				Array.prototype.map.call(document.querySelectorAll('script[type="text\/js-worker"]'), function(oScript) {
-					return oScript.textContent
-				}),
+				Array.prototype.map.call(
+					document.querySelectorAll('script[type="text\/js-worker"]'),
+					function(oScript) {
+						return oScript.textContent
+					}
+				),
 				{ type: 'text/javascript' }
 			)
 
