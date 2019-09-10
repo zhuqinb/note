@@ -26,13 +26,13 @@
 </div>
 ```
 
-```css
+```scss
 div {
 	display: table;
-}
-span {
-	display: table-cell;
-	vertical-align: middle;
+	span {
+		display: table-cell;
+		vertical-align: middle;
+	}
 }
 ```
 
@@ -45,13 +45,21 @@ span {
 </div>
 ```
 
-```css
+```scss
 div {
 	display: table;
-}
-span {
-	display: table-cell;
-	vertical-align: middle;
+	&::after {
+		content: ' ';
+		display: table;
+		clear: both;
+	}
+	.left {
+		float: left;
+		margin-right: 10px;
+	}
+	.right {
+		display: table-cell;
+	}
 }
 ```
 
@@ -59,5 +67,6 @@ span {
 
 1. table 至少有一个 display: table 和 display: table-cell 和 html 的 table 类似，只用这个属性后，就可以使用 table 的 css 样式，如 border-collapse、text-aligin、vertical-align、border-spacing、caption-side、empty-cells
 2. table-cell 同样会被其他一些 css 属性破坏，例如 float、position：absolute，所以，在使用 display：table-cell 与 float：left 或 position:absolute 属性尽量不要同时使用
-
-3. 设置了 display：table-cell 的元素对宽度高度敏感对 margin 值无反应，相应 padding 属性，基本上就是 td 标签元素
+3.  - display: table 时 padding 会失效
+    - display: table-row 时 margin、padding 同时失效
+    - display: table-cell 时 margin 会失效
