@@ -7,6 +7,7 @@ Referrer 网站来路；访问者进入网站任何途径。HTTP Referer 是 hea
 ## 获取 referrer
 
 js 中获取:`var referer = document.referrer;`
+
 java 后台获取:`String referrer = request.getHeader(“referer”);`
 
 ## 作用
@@ -184,6 +185,10 @@ Content-Security-Policy: referrer
 这种方式作用的只是这一个链接。 并且，标签可用的 Referrer 策略只有三种：no-referrer、origin 以及 unsafe-url 。
 另外，这样针对单个链接设置的策略优先级比 CSP 和 要高。
 
+## 参考与来源
+
+[https://blog.csdn.net/java_zhangshuai/article/details/81627365](https://blog.csdn.net/java_zhangshuai/article/details/81627365)
+
 <ClientOnly>
-  <article-info weather="qing" mood="fendou">2019年09月10日 17:38</article-info>
+<article-info weather="qing" mood="fendou">2019 年 09 月 10 日 17:38</article-info>
 </ClientOnly>
