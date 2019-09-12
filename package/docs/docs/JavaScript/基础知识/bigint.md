@@ -39,3 +39,7 @@ BigInt('abc') //SyntaxError
 ## 参考
 
 [https://segmentfault.com/a/1190000019912017#articleHeader3](https://segmentfault.com/a/1190000019912017#articleHeader3)
+
+<ClientOnly>
+  <article-info weather="qing" mood="fendou">2019年09月12日 14:30</article-info>
+</ClientOnly>
