@@ -212,6 +212,5 @@ url 可以是 socket 服务完整的 http 地址，如：io('http://localhost:30
 [参考](https://juejin.im/post/5bc7f6b96fb9a05d3447eef8)
 
 <ClientOnly>
-  <article-info weather="qing" mood="maren">2019年09月04日 01:05 
-  今天是地大信息上班的最后一天</article-info>
+  <article-info weather="qing" mood="maren">2019年09月04日 01:05 今天是地大信息上班的最后一天</article-info>
 </ClientOnly>

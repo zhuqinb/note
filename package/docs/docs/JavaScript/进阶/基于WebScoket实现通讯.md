@@ -704,6 +704,5 @@ socket.broadcast.emit()发送消息除了自己都能看到
 [https://juejin.im/post/5bce886af265da0ac07c8ef8](https://juejin.im/post/5bce886af265da0ac07c8ef8)
 
 <ClientOnly>
-  <article-info weather="qing" mood="maren">2019年09月04日 01:05 
-  今天是地大信息上班的最后一天</article-info>
+  <article-info weather="qing" mood="maren">2019年09月04日 01:05 今天是地大信息上班的最后一天</article-info>
 </ClientOnly>
