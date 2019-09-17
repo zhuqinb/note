@@ -41,7 +41,7 @@ export default {
       let minute = String(
         Math.floor((dayPoor - Math.floor(dayPoor)) * 60 * 24)
       ).padStart(2, "00");
-      return `${day}天${hour}时${minute}分`;
+      return `${day}天`;
     }
   },
   mounted() {

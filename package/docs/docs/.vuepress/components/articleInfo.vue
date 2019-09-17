@@ -1,6 +1,6 @@
 <template>
   <p class="date">
-    <slot></slot>
+    <!-- <slot></slot> -->
     <svg class="mood" aria-hidden="true">
       <use :xlink:href="weather|weatherFilter" />
     </svg>
@@ -10,7 +10,7 @@
   </p>
 </template>
 <script>
-import './../public/font/iconfont'
+import "./../public/font/iconfont";
 
 import { mood, moodList } from "./../js/moodList";
 import { weather, weatherList } from "./../js/weatherList";
@@ -31,20 +31,20 @@ export default {
   filters: {
     weatherFilter: val => {
       if (typeof val === "number") {
-        return '#' + weatherList[val].value;
+        return "#" + weatherList[val].value;
       }
 
       if (typeof val === "string") {
-        return '#' + weather[val].value;
+        return "#" + weather[val].value;
       }
     },
     moodFilter: val => {
       if (typeof val === "number") {
-        return '#' + moodList[val].value;
+        return "#" + moodList[val].value;
       }
 
       if (typeof val === "string") {
-        return '#' + mood[val].value;
+        return "#" + mood[val].value;
       }
     }
   }
