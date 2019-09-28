@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 
-let ignore = ['README.md', '.vuepress', 'face']
+let ignore = ['README.md', '.vuepress']
 let rootUrl = path.resolve(__dirname, '../')
 const files = fs
 	.readdirSync(rootUrl)
