@@ -36,6 +36,7 @@
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
+    "animejs": "^3.1.0",
     "element-ui": "^2.11.1",
     "vue": "^2.6.10",
     "vue-router": "^3.1.2"

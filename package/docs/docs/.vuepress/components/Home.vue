@@ -1,24 +1,26 @@
 <template>
-  <section class="search-links">
-    <div class="search">
+  <section class="wrapper">
+    <canvas class="dynamic-bg" ref="dynamicBg"></canvas>
+    <!-- <div class="search">
       <SearchBox />
+    </div> -->
+    <div class="content">
+      <p class="date"><span>{{getDate().date}}</span>/<span>{{getDate().month}}</span></p>
+      <p class="sentence">我抓不住这世间的美好，只能装作万事顺遂的模样。</p>
     </div>
-    <div class="links">
-      <a v-for="(item, index) in navs" :href="item.link|formatLink">{{item.text}}</a>
-    </div>
-    <p>距离第七届世界军人运动会开幕还有{{distanceTime}}</p>
   </section>
 </template>
 
 <script>
 import SearchBox from "@SearchBox";
 import { setTimeout } from "timers";
+import Bg from './../view/home/bg/index'
+import Ball from './../view/home/bg/Ball'
 export default {
   components: { SearchBox },
   data() {
     return {
-      navs: [],
-      distanceTime: undefined
+      navs: []
     };
   },
   filters: {
@@ -29,54 +31,48 @@ export default {
     }
   },
   methods: {
-    getDistanceTime() {
-      let endTime = new Date("2019-10-18 0:0:0").getTime();
-      let startTime = Date.now();
-      let distance = endTime - startTime;
-      let dayPoor = distance / 1000 / 24 / 60 / 60;
-      let day = Math.floor(dayPoor);
-      let hour = String(
-        Math.floor((dayPoor - Math.floor(dayPoor)) * 24)
-      ).padStart(2, "00");
-      let minute = String(
-        Math.floor((dayPoor - Math.floor(dayPoor)) * 60 * 24)
-      ).padStart(2, "00");
-      return `${day}天`;
+    getDate() {
+      return {
+        date: new Date().getDate(),
+        month: new Date().getMonth() + 1
+      }
+    },
+
+    initCanvas() {
+      let bg = new Bg(this.$refs.dynamicBg)
+      bg.init()
     }
   },
   mounted() {
-    const {
-      themeConfig: {
-        nav: [navs]
-      }
-    } = this.$site;
-    this.navs = navs.items;
-    function time() {
-      this.distanceTime = this.getDistanceTime();
-      setTimeout(time.bind(this), 1000);
-    }
-    time.call(this);
+    this.initCanvas()
   }
 };
 </script>
 <style lang="stylus">
+* {
+  padding 0
+  margin 0
+}
 html, body {
-  // background-color: #2b2b2b;
+  color #fff;
+  width 100%;
+  height 100%
+  overflow hidden
 }
 
-.search-links .search-box input {
+.search .search-box input {
   width: 30rem;
   border-radius: 4px;
 }
 
-.search-links .search-box input + ul {
+.search .search-box input + ul {
   display: block !important;
   left: 0;
   z-index: 2;
   width: 30rem !important;
 }
 
-.search-links {
+.search {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -84,18 +80,48 @@ html, body {
   margin-top: 10vh;
 }
 
-.search-links .links {
+.search .links {
   margin-top: 30px;
   z-index: 0;
 }
 
 // animation: jump 1000ms 100ms infinite both;
-.search-links .links a {
+.search .links a {
   padding: 5px 9px;
   margin: 10px;
   border-radius: 18px;
   display: inline-block;
 }
+
+.sentence {
+    font-size: 30px;
+    font-family: '宋体';
+    text-align: center;
+}
+
+
+.dynamic-bg {
+  position absolute;
+  top 0;
+  left 0;
+  z-index 0;
+}
+
+.content {
+  background transparent
+  position: relative;
+  .date {
+    text-align center
+    font-size: 40px;
+    span:nth-child(1) {
+      font-size: 40px;
+    }
+    span:nth-child(2) {
+      font-size: 14px;
+    }
+  }
+}
+
 
 @keyframes jump {
   from, 10% {
