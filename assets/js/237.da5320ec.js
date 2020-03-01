@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[237],{312:function(t,e,n){"use strict";n.r(e);var i=n(0),s=Object(i.a)({},function(){var t=this.$createElement,e=this._self._c||t;return e("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[e("p",[this._v("UglifyJS 是一个 JavaScript 解析器，minifier，压缩器和美化工具包。")])])},[],!1,null,null,null);e.default=s.exports}}]);
