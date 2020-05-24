@@ -1,13 +1,13 @@
 <template>
   <section class="wrapper">
     <canvas class="dynamic-bg" ref="dynamicBg"></canvas>
-    <!-- <div class="search">
-      <SearchBox />
-    </div> -->
     <div class="content">
       <p class="date"><span>{{getDate().date}}</span>/<span>{{getDate().month}}</span></p>
       <p class="sentence">我抓不住这世间的美好，只能装作万事顺遂的模样。</p>
     </div>
+      <div class="search">
+          <SearchBox />
+      </div>
   </section>
 </template>
 
